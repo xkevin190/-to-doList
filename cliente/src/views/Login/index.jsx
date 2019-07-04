@@ -1,7 +1,8 @@
 import React from "react";
 import Login from "./Login";
 import Registro from "./Registro";
-
+import { login } from "../../actions/actions";
+import { connect } from "react-redux";
 class Session extends React.Component {
   constructor(props) {
     super(props);
@@ -15,19 +16,30 @@ class Session extends React.Component {
   };
 
   singIn = () => {
-
-    console.log("entro aca")
     this.setState({ step: 1 });
+  };
+
+  onLogin = (values, { resetForm }) => {
+    this.props.login(values);
+  };
+
+  onRegister = values => {
+    console.log(values);
   };
 
   render() {
     return (
       <div>
-        {this.state.step === 1 && <Login singUp={this.singUp} />}
-        {this.state.step === 2 && <Registro singIn={this.singIn} />}
+        {this.state.step === 1 && (
+          <Login onLogin={this.onLogin} singUp={this.singUp} />
+        )}
+        {this.state.step === 2 && <Registro onRegister={this.onRegister} singIn={this.singIn} />}
       </div>
     );
   }
 }
 
-export default Session;
+export default connect(
+  null,
+  { login }
+)(Session);
