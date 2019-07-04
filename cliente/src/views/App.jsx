@@ -15,10 +15,9 @@ class App extends Component {
   render() {
     console.log();
     return (
-      <Container
-      >
-        {!this.props.user && <Session />}
-        {this.props.user && <Home />}
+      <Container>
+        {/* {!this.props.user && <Session />} */}
+        <Home />
       </Container>
     );
   }
@@ -28,6 +27,7 @@ const Container = styled.div`
   min-height: 98vh;
   display: flex;
   flex-direction: column;
+  background:aliceblue
 `;
 
 const mapStateToProps = state => ({

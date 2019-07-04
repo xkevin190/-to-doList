@@ -1,27 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import {Edit} from '@material-ui/icons';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import { Edit } from "@material-ui/icons";
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: "100%",
     backgroundColor: theme.palette.background.paper,
-    display:"flex",
+    display: "flex",
     flexDirection: "column",
     flex: 1
-  },
+  }
 });
 
 class TodoList extends React.Component {
   state = {
-    checked: [0],
+    checked: [0]
   };
 
   handleToggle = value => () => {
@@ -36,25 +36,29 @@ class TodoList extends React.Component {
     }
 
     this.setState({
-      checked: newChecked,
+      checked: newChecked
     });
   };
 
   render() {
-    const { classes } = this.props;
-
+    const { classes, task } = this.props;
     return (
-      <List className={classes.root}
-      
-      >
-        {[0, 1, 2, 3].map(value => (
-          <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
+      <List className={classes.root}>
+        {task.map((value, key) => (
+          <ListItem
+            key={value}
+            role={undefined}
+            dense
+            button
+            onClick={this.handleToggle(value)}
+          >
             <Checkbox
-              checked={this.state.checked.indexOf(value) !== -1}
+              checked={value.done}
+              onClick={() => this.props.taskDone({ id: key, ...value })}
               tabIndex={-1}
               disableRipple
             />
-            <ListItemText primary={`Line item ${value + 1}`} />
+            <ListItemText primary={value.task_name} />
             <ListItemSecondaryAction>
               <IconButton aria-label="Comments">
                 <Edit />
@@ -66,6 +70,5 @@ class TodoList extends React.Component {
     );
   }
 }
-
 
 export default withStyles(styles)(TodoList);

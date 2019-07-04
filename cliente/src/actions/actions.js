@@ -17,14 +17,6 @@ export const setState = () => {
 };
 
 export const login = values => dispatch => {
-  const data = {
-    ...values,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      "Content-type": "application/json"
-    }
-  };
   axios
     .post(loginUrl, { ...values, headers })
     .then(res => {
@@ -51,19 +43,11 @@ export const registro = (values, callback) => dispatch => {
     }
   };
   axios
-    .post(registroUrl, data)
+    .post(registroUrl, { ...values, headers })
     .then(res => {
-      callback()
+      callback();
     })
     .catch(err => {
       console.log("asdasd", error);
     });
-
-  // dispatch({
-  //   type: "USER_SESSION",
-  //   payload: {
-  //     ...values,
-  //     logout: true
-  //   }
-  // });
 };
