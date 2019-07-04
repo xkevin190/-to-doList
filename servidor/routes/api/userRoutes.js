@@ -30,6 +30,8 @@ module.exports = app => {
 
   app.post(`${API_PATH}/singUp`, async (req, res) => {
     const { name, surname, email, password } = req.body;
+
+    console.log(req.body)
     try {
       const newUser = await Users.create({
         name: name,

@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login";
 import Registro from "./Registro";
-import { login } from "../../actions/actions";
+import { login, registro } from "../../actions/actions";
 import { connect } from "react-redux";
 class Session extends React.Component {
   constructor(props) {
@@ -24,7 +24,9 @@ class Session extends React.Component {
   };
 
   onRegister = values => {
-    console.log(values);
+    this.props.registro(values, () => {
+      this.setState({ step: 1 });
+    });
   };
 
   render() {
@@ -33,7 +35,9 @@ class Session extends React.Component {
         {this.state.step === 1 && (
           <Login onLogin={this.onLogin} singUp={this.singUp} />
         )}
-        {this.state.step === 2 && <Registro onRegister={this.onRegister} singIn={this.singIn} />}
+        {this.state.step === 2 && (
+          <Registro onRegister={this.onRegister} singIn={this.singIn} />
+        )}
       </div>
     );
   }
@@ -41,5 +45,5 @@ class Session extends React.Component {
 
 export default connect(
   null,
-  { login }
+  { login, registro }
 )(Session);
