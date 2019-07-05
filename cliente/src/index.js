@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import store from "./store";
-import { setState } from "./actions/actions";
+import { verify } from "./actions/actions";
 import { Provider } from "react-redux";
 import App from "./views/App";
 
-store.dispatch(setState());
+store.dispatch(verify());
 
 ReactDOM.render(
   <Provider store={store}>

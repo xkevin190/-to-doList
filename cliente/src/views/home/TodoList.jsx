@@ -15,7 +15,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     flexDirection: "column",
-    flex: 4
+    flex: 4,
+    maxHeight: 265,
+    overflow: "auto"
   }
 });
 

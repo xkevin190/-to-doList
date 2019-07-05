@@ -20,6 +20,7 @@ export const login = values => dispatch => {
   axios
     .post(loginUrl, { ...values, headers })
     .then(res => {
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       dispatch({
         type: "USER_SESSION",
         payload: {
@@ -53,6 +54,7 @@ export const registro = (values, callback) => dispatch => {
 };
 
 export const signOff = () => {
+  localStorage.removeItem("user");
   return {
     type: "SIGN_OFF"
   };
@@ -74,4 +76,17 @@ export const closeSnackbars = values => {
     type: "CLOSE_SNACKBARS",
     payload: values
   };
+};
+
+export const verify = () => dispatch => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    dispatch({
+      type: "USER_SESSION",
+      payload: {
+        ...JSON.parse(user),
+        logout: true
+      }
+    });
+  }
 };
