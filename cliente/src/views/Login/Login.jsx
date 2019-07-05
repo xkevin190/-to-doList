@@ -47,7 +47,6 @@ const InitialValues = {
 export default function SignIn(props) {
   const classes = useStyles();
 
-  console.log("asdasdsa", props);
   return (
     <Formik
       initialValues={InitialValues}

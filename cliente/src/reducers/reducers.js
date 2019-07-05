@@ -10,6 +10,10 @@ const aplicationReducer = (state = Map(), action) => {
     case "USER_SESSION": {
       return setData(state, "sesionUser", action.payload);
     }
+
+    case "SIGN_OFF": {
+      return Map({});
+    }
     default:
       return state;
   }

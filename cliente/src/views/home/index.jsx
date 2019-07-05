@@ -2,31 +2,80 @@ import React from "react";
 import { Card } from "@material-ui/core";
 import styled from "styled-components";
 import TodoList from "./TodoList";
-import { createTask, editTask, taskDone } from "../../actions/taskActions";
+import {
+  createTask,
+  editTask,
+  taskDone,
+  allTask
+} from "../../actions/taskActions";
+
+import { signOff } from "../../actions/actions";
 import { connect } from "react-redux";
 import FormTodoList from "./FormTodoList";
+import Header from "../../components/header";
 
 class Home extends React.Component {
-  handleSubmitTask = (values, { resetForm }) => {
+  state = {
+    update: null,
+    task_name: ""
+  };
+  componentDidMount = () => {
+    this.props.allTask(this.props.user.id);
+  };
+
+  handleSubmitTask = () => {
     this.props.createTask(
       {
-        task_name: values.task_name,
+        task_name: this.state.task_name,
         done: false,
         id_users: 1
       },
       () => {
-        resetForm({ id_users: "" });
+        this.setState({ task_name: "" });
+      }
+    );
+  };
+
+  setTaskName = value => {
+    this.setState({ task_name: value });
+  };
+
+  editTask = values => {
+    this.setState({ update: values, task_name: values.task_name });
+  };
+
+  cancelUpdate = () => {
+    this.setState({ update: null, task_name: "" });
+  };
+
+  editTaskName = () => {
+    this.props.editTask(
+      {
+        ...this.state.update,
+        task_name: this.state.task_name
+      },
+      () => {
+        this.setState({ task_name: "", update: null });
       }
     );
   };
 
   render() {
-    console.log("user", this.props.user);
     return (
       <Container>
+        <Header user={this.props.user} signOff={this.props.signOff}/>
         <Card className="CardContainer">
-          <TodoList {...this.props} />
+          <TodoList
+            update={this.state.update}
+            edit={this.editTask}
+            cancelUpdate={this.cancelUpdate}
+            {...this.props}
+          />
           <FormTodoList
+            update={this.state.update}
+            setTaskName={this.setTaskName}
+            task_name={this.state.task_name}
+            editTaskName={this.editTaskName}
             {...this.props}
             handleSubmitTask={this.handleSubmitTask}
           />
@@ -43,7 +92,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createTask, editTask, taskDone }
+  { createTask, editTask, taskDone, allTask, signOff }
 )(Home);
 
 const Container = styled.div`

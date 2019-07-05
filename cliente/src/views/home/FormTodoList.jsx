@@ -5,49 +5,54 @@ import { Formik } from "formik";
 
 export default class FormTodoList extends React.Component {
   render() {
+    const {
+      update,
+      setTaskName,
+      task_name,
+      handleSubmitTask,
+      editTaskName
+    } = this.props;
     return (
-      <Formik
-        //initialValues={InitialValues}
-        onSubmit={this.props.handleSubmitTask}
-        //validationSchema={validationSchema}
-        render={({
-          values,
-          handleSubmit,
-          setFieldValue,
-          errors,
-          resetForm
-        }) => {
-          return (
-            <Container>
-              <TextField
-                id="outlined-full-width"
-                label="add task"
-                style={{ margin: 8 }}
-                placeholder="Placeholder"
-                fullWidth
-                multiline
-                rows={4}
-                margin="normal"
-                value={values.task_name}
-                onChange={e => setFieldValue("task_name", e.target.value)}
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <div className="button">
-                <Button
-                  color="primary"
-                  onClick={handleSubmit}
-                  variant={"contained"}
-                >
-                  Nueva tarea
-                </Button>
-              </div>
-            </Container>
-          );
-        }}
-      />
+      <Container>
+        <TextField
+          id="outlined-full-width"
+          label="add task"
+          style={{ margin: 8 }}
+          placeholder="Placeholder"
+          fullWidth
+          multiline
+          rows={4}
+          margin="normal"
+          value={task_name}
+          onChange={e => setTaskName(event.target.value)}
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <div className="button">
+          {!update && (
+            <Button
+              color="primary"
+              onClick={() => handleSubmitTask()}
+              disabled={task_name.length > 0 ? false : true}
+              variant={"contained"}
+            >
+              Nueva tarea
+            </Button>
+          )}
+          {update && (
+            <Button
+              color="primary"
+              disabled={task_name.length > 0 ? false : true}
+              onClick={() => editTaskName()}
+              variant={"contained"}
+            >
+              Guardar
+            </Button>
+          )}
+        </div>
+      </Container>
     );
   }
 }

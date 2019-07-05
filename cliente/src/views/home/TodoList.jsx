@@ -7,7 +7,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
-import { Edit } from "@material-ui/icons";
+import { Edit, Cancel } from "@material-ui/icons";
 
 const styles = theme => ({
   root: {
@@ -20,52 +20,48 @@ const styles = theme => ({
 });
 
 class TodoList extends React.Component {
-  state = {
-    checked: [0]
-  };
-
-  handleToggle = value => () => {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checked: newChecked
-    });
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const { classes, task } = this.props;
+    const { classes, task, edit, update, cancelUpdate } = this.props;
     return (
       <List className={classes.root}>
-        {task.map((value, key) => (
-          <ListItem
-            key={value}
-            role={undefined}
-            dense
-            button
-            onClick={this.handleToggle(value)}
-          >
-            <Checkbox
-              checked={value.done}
-              onClick={() => this.props.taskDone({ id: key, ...value })}
-              tabIndex={-1}
-              disableRipple
-            />
-            <ListItemText primary={value.task_name} />
-            <ListItemSecondaryAction>
-              <IconButton aria-label="Comments">
-                <Edit />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+        {task &&
+          task.map((value, key) => {
+            return (
+              <ListItem key={key}>
+                <Checkbox
+                  checked={value.done}
+                  onClick={() => this.props.taskDone({ ...value })}
+                />
+                <ListItemText primary={value.task_name} />
+                <ListItemSecondaryAction>
+                  {!update && (
+                    <IconButton
+                      onClick={() => {
+                        edit(value);
+                      }}
+                      aria-label="Comments"
+                    >
+                      <Edit />
+                    </IconButton>
+                  )}
+                  {update && update.id === value.id && (
+                    <IconButton
+                      onClick={() => {
+                        cancelUpdate();
+                      }}
+                      aria-label="Comments"
+                    >
+                      <Cancel />
+                    </IconButton>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
       </List>
     );
   }

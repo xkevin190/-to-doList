@@ -46,12 +46,13 @@ module.exports = app => {
   // Edit Task
 
   app.put(`${API_PATH}/taskEdit/:id`, async (req, res) => {
-    const { task_name, done, id_users } = req.body;
+    const { task_name, done, userId } = req.body;
+
     const taskUpdated = await Task.update(
       {
         task_name: task_name,
         done: done,
-        userId: id_users
+        userId: userId
       },
       {
         where: {
@@ -60,7 +61,10 @@ module.exports = app => {
       }
     );
 
-    console.log("asdasd", task_name, done, id_users);
+    return res.json({
+      message: "Operacion exitosa",
+      data: taskUpdated
+    });
   });
 
   app.put(`${API_PATH}/taskDone`, async (req, res) => {

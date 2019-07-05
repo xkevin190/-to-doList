@@ -23,7 +23,7 @@ export const login = values => dispatch => {
       dispatch({
         type: "USER_SESSION",
         payload: {
-          ...values,
+          ...res.data.user,
           logout: true
         }
       });
@@ -50,4 +50,10 @@ export const registro = (values, callback) => dispatch => {
     .catch(err => {
       console.log("asdasd", error);
     });
+};
+
+export const signOff = () => {
+  return {
+    type: "SIGN_OFF"
+  };
 };
