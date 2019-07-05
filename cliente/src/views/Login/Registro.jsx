@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import * as yup from "yup";
 import { Formik } from "formik";
 
 const useStyles = makeStyles(theme => ({
@@ -48,12 +49,21 @@ const InitialValues = {
 
 export default function SignUp(props) {
   const classes = useStyles();
+  const ValidationSchema = yup.object().shape({
+    name: yup.string().required(),
+    surname: yup.string().required(),
+    email: yup
+      .string()
+      .email()
+      .required(),
+    password: yup.string().required()
+  });
 
   return (
     <Formik
       initialValues={InitialValues}
       onSubmit={props.onRegister}
-      //validationSchema={validationSchema}
+      validationSchema={ValidationSchema}
       render={({ values, handleSubmit, setFieldValue, errors, resetForm }) => {
         return (
           <Container component="main" maxWidth="xs">
@@ -79,6 +89,12 @@ export default function SignUp(props) {
                       onChange={e => setFieldValue("name", e.target.value)}
                       label="First Name"
                       autoFocus
+                      helperText={errors.name}
+                      FormHelperTextProps={{
+                        style: {
+                          color: "red"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -92,6 +108,12 @@ export default function SignUp(props) {
                       onChange={e => setFieldValue("surname", e.target.value)}
                       name="lastName"
                       autoComplete="lname"
+                      helperText={errors.surname}
+                      FormHelperTextProps={{
+                        style: {
+                          color: "red"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -105,6 +127,12 @@ export default function SignUp(props) {
                       onChange={e => setFieldValue("email", e.target.value)}
                       value={values.email}
                       autoComplete="email"
+                      helperText={errors.email}
+                      FormHelperTextProps={{
+                        style: {
+                          color: "red"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -119,6 +147,12 @@ export default function SignUp(props) {
                       onChange={e => setFieldValue("password", e.target.value)}
                       value={values.password}
                       autoComplete="current-password"
+                      helperText={errors.password}
+                      FormHelperTextProps={{
+                        style: {
+                          color: "red"
+                        }
+                      }}
                     />
                   </Grid>
                 </Grid>

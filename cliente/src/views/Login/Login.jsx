@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import * as yup from "yup";
 import { Formik } from "formik";
 
 const useStyles = makeStyles(theme => ({
@@ -47,11 +48,16 @@ const InitialValues = {
 export default function SignIn(props) {
   const classes = useStyles();
 
+  const ValidationSchema = yup.object().shape({
+    email: yup.string().required(),
+    password: yup.string().required()
+  });
+
   return (
     <Formik
       initialValues={InitialValues}
       onSubmit={props.onLogin}
-      //validationSchema={validationSchema}
+      validationSchema={ValidationSchema}
       render={({ values, handleSubmit, setFieldValue, errors, resetForm }) => {
         return (
           <Container component="main" maxWidth="xs">
@@ -71,10 +77,16 @@ export default function SignIn(props) {
                   fullWidth
                   id="email"
                   label="Email Address"
+                  helperText={errors.email}
                   value={values.email}
                   name="email"
                   onChange={e => setFieldValue("email", e.target.value)}
                   autoComplete="email"
+                  FormHelperTextProps={{
+                    style: {
+                      color: "red"
+                    }
+                  }}
                   autoFocus
                 />
 
@@ -89,7 +101,12 @@ export default function SignIn(props) {
                   type="password"
                   id="password"
                   onChange={e => setFieldValue("password", e.target.value)}
-                  autoComplete="current-password"
+                  helperText={errors.password}
+                  FormHelperTextProps={{
+                    style: {
+                      color: "red"
+                    }
+                  }}
                 />
 
                 <Button

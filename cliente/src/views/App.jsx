@@ -3,7 +3,7 @@ import Session from "./Login";
 import Home from "./home";
 import { connect } from "react-redux";
 import styled  from "styled-components";
-
+import Snarckbars from '../components/Snarckbars'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +16,7 @@ class App extends Component {
 
     return (
       <Container>
+        <Snarckbars/>
         {!this.props.user && <Session />}
         {this.props.user && <Home />}
       </Container>

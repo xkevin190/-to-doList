@@ -2,8 +2,22 @@ import { Map, List } from "immutable";
 
 const setData = (state, node, values) => state.set(node, values);
 
-const aplicationReducer = (state = Map(), action) => {
+const initalState = Map({
+  snackBars: {
+    type: "success",
+    message: "",
+    open: false
+  }
+});
+const aplicationReducer = (state = initalState, action) => {
   switch (action.type) {
+    case "OPEN_SNACKBARS": {
+      return setData(state, "snackBars", action.payload);
+    }
+    case "CLOSE_SNACKBARS": {
+      return setData(state, "snackBars", action.payload);
+    }
+
     case "SET_STATE": {
       return state;
     }
@@ -12,7 +26,7 @@ const aplicationReducer = (state = Map(), action) => {
     }
 
     case "SIGN_OFF": {
-      return Map({});
+      return initalState;
     }
     default:
       return state;

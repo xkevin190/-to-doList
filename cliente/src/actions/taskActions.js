@@ -1,4 +1,5 @@
 import axios from "axios";
+import { openSnackbars } from "./actions";
 
 const url = `http://localhost:3000/api`;
 const loginUrl = `${url}/login`;
@@ -16,6 +17,7 @@ const headers = {
 export const createTask = (values, callback) => dispatch => {
   axios.post(createTaskUrl, { ...values, headers }).then(res => {
     callback();
+    dispatch(openSnackbars("success", "Operacion Exitosa"));
     dispatch({
       type: "CREATE_TASK",
       payload: res.data.data.newTask
@@ -47,6 +49,7 @@ export const editTask = (values, callback) => dispatch => {
       headers
     })
     .then(res => {
+      dispatch(openSnackbars("success", "Operacion Exitosa"));
       callback();
       dispatch({
         type: "TASK_EDIT",

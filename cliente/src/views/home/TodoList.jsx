@@ -15,7 +15,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     flexDirection: "column",
-    flex: 1
+    flex: 4
   }
 });
 

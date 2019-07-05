@@ -29,7 +29,7 @@ export const login = values => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err);
+      dispatch(openSnackbars("error", "Usuario o contraseña incorrecta"));
     });
 };
 
@@ -48,12 +48,30 @@ export const registro = (values, callback) => dispatch => {
       callback();
     })
     .catch(err => {
-      console.log("asdasd", error);
+      dispatch(openSnackbars("error", "Usuario Existente"));
     });
 };
 
 export const signOff = () => {
   return {
     type: "SIGN_OFF"
+  };
+};
+
+export const openSnackbars = (type, message) => {
+  return {
+    type: "OPEN_SNACKBARS",
+    payload: {
+      type,
+      message,
+      open: true
+    }
+  };
+};
+
+export const closeSnackbars = values => {
+  return {
+    type: "CLOSE_SNACKBARS",
+    payload: values
   };
 };

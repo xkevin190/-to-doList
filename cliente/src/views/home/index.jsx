@@ -28,7 +28,7 @@ class Home extends React.Component {
       {
         task_name: this.state.task_name,
         done: false,
-        id_users: 1
+        id_users: this.props.user.id
       },
       () => {
         this.setState({ task_name: "" });
@@ -63,7 +63,7 @@ class Home extends React.Component {
   render() {
     return (
       <Container>
-        <Header user={this.props.user} signOff={this.props.signOff}/>
+        <Header user={this.props.user} signOff={this.props.signOff} />
         <Card className="CardContainer">
           <TodoList
             update={this.state.update}
