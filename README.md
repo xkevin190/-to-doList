@@ -13,8 +13,7 @@ node --version
 ```
 
 ### Instalacion
-
-    moverse a cada carpeta cliente y la de servidor y en ambos ejecutar
+moverse a cada carpeta `cliente` y la de `servidor` y en ambos ejecutar
 
 ```CLI
 npm install
